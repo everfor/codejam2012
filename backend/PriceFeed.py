@@ -16,6 +16,7 @@ class PriceFeed:
         self.pr_sock.send('H\r\n')
      
     def getNextPrice(self):
+        price = ''
         while(1):
             data = self.pr_sock.recv(1)
             #When it's a "C" all ends:
