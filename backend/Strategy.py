@@ -86,29 +86,29 @@ class Strategy:
                 self.Manager_TMA = 'Manager4'
             
     def check_SMA(self):
-        if(self.Delta1_SMA < 0 and self.Delta2_SMA >= 0 or self.Delta1_SMA == 0 and self.Delta2_SMA > 0):
+        if(self.Delta1_SMA < 0 and self.Delta2_SMA >= 0):
             return 1
-        elif(self.Delta1_SMA > 0 and self.Delta2_SMA <= 0 or self.Delta1_SMA == 0 and self.Delta2_SMA < 0):
+        elif(self.Delta1_SMA > 0 and self.Delta2_SMA <= 0):
             return -1
         return 0
         
     def check_LWMA(self):
-        if(self.Delta1_LWMA <0 and self.Delta2_LWMA >= 0 or self.Delta1_LWMA == 0 and self.Delta2_LWMA > 0):
+        if(self.Delta1_LWMA <0 and self.Delta2_LWMA >= 0):
             return 1
-        elif(self.Delta1_LWMA > 0 and self.Delta2_LWMA <= 0 or self.Delta1_LWMA == 0 and self.Delta2_LWMA < 0):
+        elif(self.Delta1_LWMA > 0 and self.Delta2_LWMA <= 0):
             return -1
         return 0
         
     def check_EMA(self):
-        if(self.Delta1_EMA <0 and self.Delta2_EMA >= 0 or self.Delta1_EMA == 0 and self.Delta2_EMA > 0):
+        if(self.Delta1_EMA <0 and self.Delta2_EMA >= 0):
             return 1
-        elif(self.Delta1_EMA > 0 and self.Delta2_EMA <=0 or self.Delta1_EMA == 0 and self.Delta2_EMA < 0):
+        elif(self.Delta1_EMA > 0 and self.Delta2_EMA <=0):
             return -1
         return 0
         
     def check_TMA(self):
-        if(self.Delta1_TMA <0 and self.Delta2_TMA >= 0 or self.Delta1_TMA == 0 and self.Delta2_TMA > 0):
+        if(self.Delta1_TMA <0 and self.Delta2_TMA >= 0):
             return 1
-        elif(self.Delta1_TMA > 0 and self.Delta2_TMA <=0 or self.Delta1_TMA == 0 and self.Delta2_TMA < 0):
+        elif(self.Delta1_TMA > 0 and self.Delta2_TMA <=0):
             return -1
         return 0

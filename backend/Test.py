@@ -2,6 +2,7 @@ import PriceFeed
 import Strategy
 import time
 import TradeBook
+import json
 
 class Test:
     def __init__(self):
@@ -12,6 +13,7 @@ class Test:
         self.port2 = 8212
         self.all_strategy = Strategy.Strategy()
         self.file = open("Result.txt", "w")
+        self.json_obj = {"team" : "RuntimeException", "destination" : "mcgillcodejam2012@gmail.com", "transactions" : []}
     def run(self):
         self.pf.connect(self.ip,self.port1)
         self.tb.connect(self.ip,self.port2)
@@ -23,104 +25,62 @@ class Test:
                 break 
             self.all_strategy.update(float(data), price_time)
             if(self.all_strategy.check_SMA() == 1):
-                #pass
                 self.tb.buy()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR:SMA buy ' + price + ' ' + self.all_strategy.Manager_SMA
-                    self.file.write('ERROR:SMA buy ' + price + ' ' + self.all_strategy.Manager_SMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'SMA buy ' + price + ' ' + self.all_strategy.Manager_SMA
-                self.file.write('SMA buy ' + price + ' ' + self.all_strategy.Manager_SMA + '\n')
-                #print 'SMA buy' + data
+                #print 'SMA buy ' + price + ' ' + self.all_strategy.Manager_SMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             elif(self.all_strategy.check_SMA() == -1):
-                #pass
                 self.tb.sell()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: SMA sell ' + price + ' ' + self.all_strategy.Manager_SMA
-                    self.file.write('ERROR: SMA sell ' + price + ' ' + self.all_strategy.Manager_SMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'SMA sell ' + price + ' ' + self.all_strategy.Manager_SMA
-                self.file.write('SMA sell ' + price + ' ' + self.all_strategy.Manager_SMA + '\n')
-                #print 'SMA sell' + data
+                #print 'SMA sell ' + price + ' ' + self.all_strategy.Manager_SMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             if(self.all_strategy.check_LWMA() == 1):
-                #pass
                 self.tb.buy()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: LWMA buy ' + price + ' ' + self.all_strategy.Manager_LWMA
-                    self.file.write('ERROR: LWMA buy ' + price + ' ' + self.all_strategy.Manager_LWMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'LWMA buy ' + price + ' ' + self.all_strategy.Manager_LWMA
-                self.file.write('LWMA buy ' + price + ' ' + self.all_strategy.Manager_LWMA + '\n')
-                #print 'LWMA buy' + data
+                #print 'LWMA buy ' + price + ' ' + self.all_strategy.Manager_LWMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
             elif(self.all_strategy.check_LWMA() == -1):
-                #pass
                 self.tb.sell()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'EEROR: LWMA sell ' + price + ' ' + self.all_strategy.Manager_LWMA
-                    self.file.wirte('EEROR: LWMA sell ' + price + ' ' + self.all_strategy.Manager_LWMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'LWMA sell ' + price + ' ' + self.all_strategy.Manager_LWMA
-                self.file.write('LWMA sell ' + price + ' ' + self.all_strategy.Manager_LWMA + '\n')
-                #print 'LWMA sell' + data
+                #print 'LWMA sell ' + price + ' ' + self.all_strategy.Manager_LWMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
             if(self.all_strategy.check_EMA() == 1):
-                #pass
                 self.tb.buy()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: EMA buy ' + price + ' ' + self.all_strategy.Manager_EMA
-                    self.file.write('ERROR: EMA buy ' + price + ' ' + self.all_strategy.Manager_EMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'EMA buy ' + price + ' ' + self.all_strategy.Manager_EMA
-                self.file.write('EMA buy ' + price + ' ' + self.all_strategy.Manager_EMA + '\n')
-                #print 'EMA buy' + data
+                #print 'EMA buy ' + price + ' ' + self.all_strategy.Manager_EMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
             elif(self.all_strategy.check_EMA() == -1):
-                #pass
                 self.tb.sell()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: EMA sell ' + price + ' ' + self.all_strategy.Manager_EMA
-                    self.file.write('ERROR: EMA sell ' + price + ' ' + self.all_strategy.Manager_EMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'EMA sell ' + price + ' ' + self.all_strategy.Manager_EMA
-                self.file.write('EMA sell ' + price + ' ' + self.all_strategy.Manager_EMA + '\n')
-                #print 'EMA sell' + data
+                #print 'EMA sell ' + price + ' ' + self.all_strategy.Manager_EMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
             if(self.all_strategy.check_TMA() == 1):
-                #pass
                 self.tb.buy()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: TMA buy ' + price + ' ' + self.all_strategy.Manager_TMA
-                    self.file.write('ERROR: TMA buy ' + price + ' ' + self.all_strategy.Manager_TMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'TMA buy ' + price + ' ' + self.all_strategy.Manager_TMA
-                self.file.write('TMA buy ' + price + ' ' + self.all_strategy.Manager_TMA + '\n')
-                #print 'TMA buy' + data
+                #print 'TMA buy ' + price + ' ' + self.all_strategy.Manager_TMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
             elif(self.all_strategy.check_TMA() == -1):
-                #pass
                 self.tb.sell()
                 price = self.tb.receive()
                 if('E' == price):
                     print 'ERROR: EMA sell ' + price + ' ' + self.all_strategy.Manager_TMA
-                    self.file.write('ERROR: EMA sell ' + price + ' ' + self.all_strategy.Manager_TMA + '\n')
-                    #print "Market closed"
-                    #return
-                print 'EMA sell ' + price + ' ' + self.all_strategy.Manager_TMA
-                self.file.write('EMA sell ' + price + ' ' + self.all_strategy.Manager_TMA + '\n')
-                #print 'EMA sell' + data
-            
-            #print data
-        #print self.pf.data_list[0]
+                #print 'EMA sell ' + price + ' ' + self.all_strategy.Manager_TMA
+                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
+        self.file.write(json.dumps(self.json_obj, sort_keys = True, indent = 4))
         
         
 test = Test()
