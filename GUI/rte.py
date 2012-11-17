@@ -1,3 +1,4 @@
+from ImportDirectoryList import * #import all used directories
 from PyQt4 import QtCore,QtGui
 import matplotlib
 import pylab
@@ -10,12 +11,15 @@ import sys
 import time
 import os
 import threading
-from ImportDirectoryList import * #import all used directories
+
 
 import PriceFeed
+import Strategy
 
 class MainDisplay(QtGui.QMainWindow):
     def __init__(self,parent=None):
+        self.all_strategy = Strategy.Strategy()
+    
         QtGui.QWidget.__init__(self,parent)
         self.timer = QtCore.QTimer()
 
@@ -76,8 +80,6 @@ class MainDisplay(QtGui.QMainWindow):
 
             self.mplWidgets[i].draw()
 
-            self._updateLatestData(self.latestLine)
-
     def _connectSlots(self):
         self.connect(self.ui.connectButton,QtCore.SIGNAL("clicked()"),self._slotConnectClicked)
         self.connect(self.ui.disconnectButton,QtCore.SIGNAL("clicked()"),self._slotDisconnectClicked)
@@ -106,13 +108,19 @@ class MainDisplay(QtGui.QMainWindow):
         #self.timer.stop()
 
     def _slotStartClicked(self):
+        price_time = 0
         data=''
-        self.pf.startFeed()!
-
-        while(data!='C'):
-            data = self.pf.getNextPrice()
-            print data
-
+        initial = time.time()
+        self.pf.startFeed()
+        while(1):
+            price_time, data = self.pf.getNextPrice()
+            if(data == 'C'):
+                print data
+                break
+            self.all_strategy.update(float(data), price_time)
+            print time.time() - initial
+            
+            
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
     rteDlg=MainDisplay()
