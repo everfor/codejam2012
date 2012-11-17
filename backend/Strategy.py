@@ -57,33 +57,42 @@ class Strategy:
             self.Delta2_LWMA = self.LWMA_fast.showValue() - self.LWMA_slow.showValue()
             self.Delta2_EMA = self.EMA_fast.showValue() - self.EMA_slow.showValue()
             self.Delta2_TMA = self.TMA_fast.showValue() - self.TMA_slow.showValue()
-            if(t == 3601):
-                self.Manager_SMA = 'Manager3'
-                self.Manager_LWMA = 'Manager3'
-                pass
-            if(t == 7201):
-                self.Manger_EMA = 'Manager1'
-                self.Manager_TMA = 'Manager1'
-                pass
-            if(t == 10801):
-                self.Manager_SMA = 'Manager2'
-                self.Manager_LWMA = 'Manager2'
-                self.Manager_EMA = 'Manager4'
-                self.Manager_TMA = 'Manager4'
-                pass
-            if(t == 18001):
+            if(t == 5401):
                 self.Manager_EMA = 'Manager3'
                 self.Manager_TMA = 'Manager3'
-                pass
-            if(t == 21601):
-                self.Manager_SMA = 'Manager2'
-                self.Manager_LWMA = 'Manager2'
-                pass
-            if(t == 25201):
+                return
+            if(t == 7201):
+                self.Manager_SMA = 'Manager4'
+                self.Manager_LWMA = 'Manager4'
+                return
+            if(t == 12601):
+                self.Manager_EMA = 'Manager5'
+                self.Manager_TMA = 'Manager5'
+                return
+            if(t == 14401):
+                self.Manager_SMA = 'Manager3'
+                self.Manager_LWMA = 'Manager3'
+                return
+            if(t == 16201):
                 self.Manager_SMA = 'Manager5'
                 self.Manager_LWMA = 'Manager5'
                 self.Manager_EMA = 'Manager4'
                 self.Manager_TMA = 'Manager4'
+                return
+            if(t == 19801):
+                self.Manager_SMA = 'Manager6'
+                self.Manager_LWMA = 'Manager6'
+                return
+            if(t == 21601):
+                self.Manager_EMA = 'Manager6'
+                self.Manager_TMA = 'Manager6'
+                return
+            if(t == 27001):
+                self.Manager_SMA = 'Manager7'
+                self.Manager_LWMA = 'Manager7'
+            if(t == 28801):
+                self.Manager_EMA = 'Manager6'
+                self.Manager_TMA = 'Manager6'
             
     def check_SMA(self):
         if(self.Delta1_SMA < 0 and self.Delta2_SMA >= 0):
