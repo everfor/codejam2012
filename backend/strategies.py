@@ -1,4 +1,3 @@
-
 def sum(t):
     i = 1
     summ = 0

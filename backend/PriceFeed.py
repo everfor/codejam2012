@@ -2,17 +2,15 @@ import socket
 import DataBase as DB
 
 class PriceFeed:
-    pr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    def __init__(self, IP, PORT):
-        self.IP = IP
-        self.PORT = PORT
+    def __init__(self):
+        self.pr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #Create a database:
         self.db = DB.DataBase()
     
-    def connect(self):
+    def connect(self, ip, port):
         #Connect to the server:
-        self.pr_sock.connect((IP, PORT))
-        print 'Connecting to ' + str(PORT)
+        self.pr_sock.connect((ip, port))
+        print 'Connecting to ' + str(port)
     
     def startFeed(self):
         #Sned an "H" which means starting the communication:
