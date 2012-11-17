@@ -1,13 +1,16 @@
 import socket
 import time
-import DataBase
+import sqlite3 as sqlite
 import sys
 import time
+import DataBase as DB
 
 IP = '127.0.0.1'
 PORT = 8211
 
 pr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#Create a database:
+db = DB.DataBase()
 
 #Connect to the server:
 pr_sock.connect((IP, PORT))
@@ -15,7 +18,6 @@ print 'Connecting to ' + str(PORT)
 
 #Sned an "H" which means starting the communication:
 pr_sock.send('H\r\n')
-db = DataBase.DataBase()
 
 #Create a table:
 db.createTable()
@@ -36,6 +38,6 @@ while(1):
         price += data
     except:
         print 'Exception occurred during the reception of data.'
-    db.showValues()
-    delta_time = time.time() - initial
-    print delta_time
+db.showValues()
+delta_time = time.time() - initial
+print delta_time
