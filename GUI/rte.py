@@ -18,6 +18,8 @@ import Strategy
 
 class MainDisplay(QtGui.QMainWindow):
     def __init__(self,parent=None):
+        self.timeData = []
+        self.data = []
         self.all_strategy = Strategy.Strategy()
     
         QtGui.QWidget.__init__(self,parent)
@@ -26,22 +28,12 @@ class MainDisplay(QtGui.QMainWindow):
         self.ui=Ui_RTEDlg()
         self.ui.setupUi(self)
 
-        self.altitudeData=[]
-        self.airTempData=[]
-        self.descentRateData=[]
-        self.voltageData=[]
-        self.data=[]
-        self.data.append(self.altitudeData)
-        self.data.append(self.airTempData)
-        self.data.append(self.descentRateData)
-        self.data.append(self.voltageData)
-
         self.pf = PriceFeed.PriceFeed()
 
         self.mplWidgets=[self.ui.smaMpl, self.ui.lwmaMpl, self.ui.emaMpl, self.ui.tmaMpl]
 
         self.plot=[]
-
+        
         self._initializePlot()
         self._connectSlots()
 
@@ -54,29 +46,29 @@ class MainDisplay(QtGui.QMainWindow):
         title=['Simple Moving Average', 'Linear Weight Moving Average', 'Exponential Moving Average', 'Triangular Moving Average']
         for i in range(len(self.mplWidgets)):
             self.plot.append(self.mplWidgets[i].axes.plot(
-                self.data[i],
+                [0],
                 linewidth=1,
                 color=(0, 0, 0),
                 )[0])
 
-        self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
-        self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)
-        self.mplWidgets[i].axes.set_title(title[i], size=8)
-        self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
-        self.mplWidgets[i].figure.subplots_adjust(left=.15)
+            self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
+            self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)
+            self.mplWidgets[i].axes.set_title(title[i], size=8)
+            self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
+            self.mplWidgets[i].figure.subplots_adjust(left=.15)
 
-    def _drawPlot(self):
+    def _drawPlot(self, timeData, data):
         for i in range(len(self.mplWidgets)):
-            xmax = max(self.timeData) if max(self.timeData) > 100 else 100
-            xmin = xmax - 100
+            xmax = round(max(timeData), 0)
+            xmin = round(min(timeData), 0)
 
-            ymin = round(min(self.data[i]), 0) - 1
-            ymax = round(max(self.data[i]), 0) + 1
+            ymin = round(min(data), 0)
+            ymax = round(max(data), 0)
 
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
 
-            self.plot[i].set_data(np.array(self.timeData),np.array(self.data[i]))
+            self.plot[i].set_data(np.array(self.timeData),np.array(self.data))
 
             self.mplWidgets[i].draw()
 
@@ -96,6 +88,7 @@ class MainDisplay(QtGui.QMainWindow):
         self.ip=str(self.ui.ipEdit.text())
         self.port=int(str(self.ui.pfEdit.text()))
         self.pf.connect(self.ip,self.port)
+        #self._drawPlot()
         #self.timer.start(500)
 
     def _slotDisconnectClicked(self):
@@ -114,11 +107,18 @@ class MainDisplay(QtGui.QMainWindow):
         self.pf.startFeed()
         while(1):
             price_time, data = self.pf.getNextPrice()
+            '''self.timeData.append(price_time)
+            self.data.append(float(data))
+            if(price_time % 1000 == 0):
+                self._drawPlot(self.timeData, self.data)
+                self.timeData = []
+                self.data = []
+            '''
             if(data == 'C'):
                 print data
                 break
             self.all_strategy.update(float(data), price_time)
-            print time.time() - initial
+        print time.time() - initial
             
             
 if __name__=="__main__":
