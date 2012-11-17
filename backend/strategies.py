@@ -8,10 +8,12 @@ def sum(t):
 
 class SMA:
     total = 0
+    
     def __init__(self, period):
         self.N = period
         self.price_list = []
         self.value = 0
+    
     def update(self, price, t):
         if(t <= self.N):
             self.price_list.append(price)
@@ -20,11 +22,13 @@ class SMA:
         else:
             self.value = self.value - self.price_list.pop(0) / self.N + price / self.N
             self.price_list.append(price)
+    
     def showValue(self):
         return self.value
         
 class LWMA:
     total = 0
+    
     def __init__(self, period):
         self.N = period
         self.price_list = []
@@ -50,25 +54,30 @@ class LWMA:
         return self.value
             
 class EMA:
+    
     def __init__(self, period):
         self.alpha = (float) (2.0 / (1.0 + period))
         self.value = 0
+    
     def update(self, price, t):
         if(t == 1):
             self.value = price
         else:
             temp = self.value + self.alpha * (price - self.value)
             self.value = temp
+    
     def showValue(self):
         return self.value
         
 class TMA:
     total = 0
+    
     def __init__(self, period):
         self.SMA_obj = SMA(period)
         self.N = period
         self.value = 0
         self.SMA_list = []
+    
     def update(self, price, t):
         self.SMA_obj.update(price, t)
         self.SMA_list.append(self.SMA_obj.showValue())
@@ -81,5 +90,6 @@ class TMA:
             for item in self.SMA_list:
                 self.total += item
             self.value = self.total / self.N
+    
     def showValue(self):
         return self.value
