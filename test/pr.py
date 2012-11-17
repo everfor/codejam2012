@@ -1,9 +1,6 @@
 import socket
 import DataBase as DB
 
-IP = '127.0.0.1'
-PORT = 8211
-
 class PriceFeed:
     pr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def __init__(self, IP, PORT):
@@ -28,7 +25,7 @@ class PriceFeed:
         price=''
         while(1):
             try:
-                data = pr_sock.recv(1)
+                data = self.pr_sock.recv(1)
                 #When it's a "C" all ends:
                 if(data == 'C'):
                     break
