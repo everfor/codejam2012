@@ -5,7 +5,6 @@ class PriceFeed:
     def __init__(self):
         self.pr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.time = 0
-        self.data_list = []
     
     def connect(self, ip, port):
         #Connect to the server:
@@ -26,7 +25,6 @@ class PriceFeed:
             if(data == 'C'):
                 return -1, ""
             elif(data == '|'):
-                self.data_list.append(float(price))
                 self.time += 1
                 return self.time, price
             price += data
