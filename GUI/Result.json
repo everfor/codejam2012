@@ -71256,6 +71256,7 @@
             "type": "buy"
         }, 
         {
+            "Marketclosed": "Yes", 
             "manager": "Manager7", 
             "price": "10.100", 
             "strategy": "SMA", 
@@ -71263,6 +71264,7 @@
             "type": "buy"
         }, 
         {
+            "Marketclosed": "Yes", 
             "manager": "Manager6", 
             "price": "10.130", 
             "strategy": "EMA", 
@@ -71270,6 +71272,7 @@
             "type": "buy"
         }, 
         {
+            "Marketclosed": "Yes", 
             "manager": "Manager6", 
             "price": "10.130", 
             "strategy": "TMA", 
