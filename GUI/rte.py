@@ -29,6 +29,11 @@ class MainDisplay(QtGui.QMainWindow):
         
         self.priceData=[]
         self.timeData=[]
+        self.smaFast=[]
+        self.lwmaFast=[]
+        self.emaFast=[]
+        self.tmaFast=[]
+        self.smaSlow=[]
 
         
         self.mplWidgets=[self.ui.smaMpl, self.ui.lwmaMpl, self.ui.emaMpl, self.ui.tmaMpl]
@@ -87,14 +92,14 @@ class MainDisplay(QtGui.QMainWindow):
             self.priceData,
             linewidth=1,
             color='blue',
-            )[0])
-        
-        self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
-        self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
-        self.mplWidgets[i].axes.set_title(title[i], size=8) 
-        self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
-        self.mplWidgets[i].figure.subplots_adjust(left=.15)
-        
+            ))
+
+            self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
+            self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
+            self.mplWidgets[i].axes.set_title(title[i], size=8) 
+            self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
+            self.mplWidgets[i].figure.subplots_adjust(left=.15)
+
         return
         
     def _slotStartClicked(self):
@@ -114,17 +119,12 @@ class MainDisplay(QtGui.QMainWindow):
                 break
             self.priceData.append(float(data))
             self.timeData.append(price_time)
+            self.tf.update_all(data, price_time)
+            self.smaSlow.append(self.tf.all_strategy.SMA_slow.showValue())
             if(price_time % 100 == 0):
-                t_plot = threading.Thread(target = self._drawPlot())
-                t_update = threading.Thread(target = self.tf.update_all(data, price_time))
-                t_update.start()
-                t_plot.start()
-                t_plot.join()
-                t_update.join()
+                self._drawPlot()
                 QtGui.QApplication.processEvents()
-            else:
-                self.tf.update_all(data, price_time)
-        
+
     def write(self):
         self.tf.json_write()
     
@@ -133,16 +133,15 @@ class MainDisplay(QtGui.QMainWindow):
             xmax = round(max(self.timeData), 0) + 1
             xmin = round(min(self.timeData), 0) - 1
 
-            ymin = 5
+            ymin = 8
             ymax = round(max(self.priceData), 0) + 1
             
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
-        
-            self.plot[i].set_data(np.array(self.timeData),np.array(self.priceData))
+            
+            self.plot[i][0].set_data(np.array(self.timeData),np.array(self.priceData))
         
             self.mplWidgets[i].draw()
-        
         return
 
 if __name__=="__main__":

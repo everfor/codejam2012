@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RTEDlg.ui'
 #
-# Created: Sun Nov 18 01:49:42 2012
+# Created: Sun Nov 18 18:08:40 2012
 #      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
