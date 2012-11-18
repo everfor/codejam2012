@@ -15,6 +15,7 @@ class TradeAndFeedback:
     def __init__(self):
         self.tb = TradeBook.TradeBook()
         self.all_strategy = Strategy.Strategy()
+        self.serial = ''
         self.file = open("Result.json", "w")
         self.json_obj = {"team" : "RuntimeException", "destination" : "mcgillcodejam2012@gmail.com", "transactions" : []}
     
@@ -116,6 +117,8 @@ class TradeAndFeedback:
     def post(self):
         os.system('cd codejam2012/GUI')
         os.system('''curl -X "POST" -H "Authorization: Basic Y29kZWphbTpBRkxpdGw0TEEyQWQx" -H "Content-Type:application/json" --data-binary @Result.json "https://stage-api.e-signlive.com/aws/rest/services/codejam"''')
+        dict = self.tb.receive()
+        self.serial = dict['ceremonyID']
     
     def write(self, obj):
         self.file.write(obj)
