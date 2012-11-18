@@ -31,10 +31,10 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA", "Marketclosed" : "Yes"})
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "buy", "price" : data, 
+                                                        "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             else:
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             
         elif(self.all_strategy.check_SMA() == -1):
@@ -42,18 +42,18 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA", "Marketclosed" : "Yes"})
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "sell", "price" : data, 
+                                                        "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             else:
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             
         if(self.all_strategy.check_LWMA() == 1):
             self.tb.buy()
             price = self.tb.receive()
             if('E' == price):
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA", "Marketclosed" : "Yes"})
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "buy", "price" : data, 
+                                                        "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
             else:
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
@@ -63,10 +63,10 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA", "Marketclosed" : "Yes"})
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "sell", "price" : data, 
+                                                        "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
             else:
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
         
         if(self.all_strategy.check_EMA() == 1):
@@ -74,10 +74,10 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA", "Marketclosed" : "Yes"})
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "buy", "price" : data, 
+                                                        "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
             else:
-                self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
+                self.json_obj["transactions"].append({"time" : str(price_time), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
         
         elif(self.all_strategy.check_EMA() == -1):
@@ -86,7 +86,7 @@ class TradeAndFeedback:
                 
             if('E' == price):
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA", "Marketclosed" : "Yes"})
+                                                        "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
             else:
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
@@ -97,7 +97,7 @@ class TradeAndFeedback:
                 
             if('E' == price):
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA", "Marketclosed" : "Yes"})
+                                                        "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
             else:
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
@@ -108,13 +108,13 @@ class TradeAndFeedback:
                 
             if('E' == price):
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
-                                                        "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA", "Marketclosed" : "Yes"})
+                                                        "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
             else:
                 self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
     
     def post(self):
-        os.system('cd ~/home/codejam2012/GUI')
+        os.system('cd codejam2012/GUI')
         os.system('''curl -X "POST" -H "Authorization: Basic Y29kZWphbTpBRkxpdGw0TEEyQWQx" -H "Content-Type:application/json" --data-binary @Result.json "https://stage-api.e-signlive.com/aws/rest/services/codejam"''')
     
     def write(self, obj):
