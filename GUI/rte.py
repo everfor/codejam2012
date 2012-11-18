@@ -13,6 +13,7 @@ import sys
 import time
 import os
 import threading
+import webbrowser
 
 
 import PriceFeed
@@ -140,7 +141,8 @@ class MainDisplay(QtGui.QMainWindow):
                 
         self.tf.json_write()
         self.tf.history()
-        os.system("gedit history.txt")
+        #os.system("gedit history.txt")
+        webbrowser("history.txt")
 
     def write(self):
         self.tf.post()
