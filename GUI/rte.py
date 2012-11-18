@@ -62,7 +62,7 @@ class MainDisplay(QtGui.QMainWindow):
         self.connect(self.ui.sendButton,QtCore.SIGNAL("clicked()"),self._slotSendClicked)
 
     def _slotConnectClicked(self):
-        os.system("""   imview Gant_Chart.jpg &     """)
+        os.system("""imview Gant_Chart.jpg&""")
         self.ui.disconnectButton.setEnabled(False)
         self.ui.connectButton.setEnabled(False)
         self.ui.startButton.setEnabled(True)
