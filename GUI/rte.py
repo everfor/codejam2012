@@ -22,12 +22,14 @@ class MainDisplay(QtGui.QMainWindow):
     def __init__(self,parent=None):
 
         QtGui.QWidget.__init__(self,parent)
-        self.timer = QtCore.QTimer()
+
 
         self.ui=Ui_RTEDlg()
         self.ui.setupUi(self)
+
         
-        self.smaData=[]
+        self.priceData=[]
+        self.timeData=[]
 
         self.pf = PriceFeed.PriceFeed()
         self.tf = TradeAndFeedback.TradeAndFeedback()
@@ -38,6 +40,7 @@ class MainDisplay(QtGui.QMainWindow):
         self.ui.startButton.setEnabled(False)
         self.ui.sendButton.setEnabled(False)
 
+
     def _connectSlots(self):
         self.connect(self.ui.connectButton,QtCore.SIGNAL("clicked()"),self._slotConnectClicked)
         self.connect(self.ui.disconnectButton,QtCore.SIGNAL("clicked()"),self._slotDisconnectClicked)
@@ -45,11 +48,12 @@ class MainDisplay(QtGui.QMainWindow):
         self.connect(self.ui.sendButton,QtCore.SIGNAL("clicked()"),self._slotSendClicked)
 
     def _slotConnectClicked(self):
-        self.ui.disconnectButton.setEnabled(True)
+        self.ui.disconnectButton.setEnabled(False)
         self.ui.connectButton.setEnabled(False)
         self.ui.startButton.setEnabled(True)
         self.ui.pfEdit.setEnabled(False)
         self.ui.tbEdit.setEnabled(False)
+        self.ui.ipEdit.setEnabled(False)
 
         self.ip=str(self.ui.ipEdit.text())
         self.port1=int(str(self.ui.pfEdit.text()))
@@ -72,9 +76,10 @@ class MainDisplay(QtGui.QMainWindow):
         ylabel='Price'
         title=['Simple Moving Average','Linear Weighted Moving Average','Exponential Moving Average','Triangular Moving Average']
         plot=self.ui.smaMpl.axes.plot(
-            self.smaData, 
+            np.array(self.timeData),
+            np.array(self.priceData),
             linewidth=1,
-            color=(0, 0, 0),
+            color='blue',
             )[0]
         
         self.ui.smaMpl.axes.set_xlabel(xlabel, size=8)
@@ -86,51 +91,50 @@ class MainDisplay(QtGui.QMainWindow):
         return plot
         
     def _slotStartClicked(self):
-        self.run()
-        '''while(1):
-            price_time, data = self.pf.getNextPrice()
-            #self.smaData.append(float(data))
-            if(len(self.smaData) % 100 == 0):
-                self._drawPlot()
-                self.smaData=[]
-            
-            if(data == 'C'):
-                #print data
-                self.ui.sendButton.setEnabled(True)
-                break
-        '''    
+        self.ui.startButton.setEnabled(False)
+        t = threading.Thread(target = self.run())
+        t.start()
+        t.join(10)
+
     def run(self):
         price_time = 0
         data=''
         self.pf.startFeed()
         while(1):
             price_time, data = self.pf.getNextPrice()
-            self.tf.update_all(data, price_time)
             if("" == data):
-                print price_time
-                print data
                 self.ui.sendButton.setEnabled(True)
                 break
-            
-        #print self.tf.json_obj
-        #self.write()
+            self.priceData.append(float(data))
+            self.timeData.append(price_time)
+            if(price_time % 100 == 0):
+                t_plot = threading.Thread(target = self._drawPlot())
+                t_update = threading.Thread(target = self.tf.update_all(data, price_time))
+                t_update.start()
+                t_plot.start()
+                t_plot.join()
+                t_update.join()
+                QtGui.QApplication.processEvents()
+            else:
+                self.tf.update_all(data, price_time)
         
     def write(self):
         self.tf.json_write()
     
     def _drawPlot(self):
-        xmax = 10000
-        xmin = 0
+        xmax = round(max(self.timeData), 0) + 1
+        xmin = round(min(self.timeData), 0) - 1
 
-        ymin = round(min(self.smaData), 0) - 1
-        ymax = round(max(self.smaData), 0) + 1
+        ymin = 5
+        ymax = round(max(self.priceData), 0) + 1
 
         self.ui.smaMpl.axes.set_xbound(lower=xmin, upper=xmax)
         self.ui.smaMpl.axes.set_ybound(lower=ymin, upper=ymax)
 
-        self.smaPlot.set_data(np.linspace(0,9999,10000),np.array(self.smaData))
+        self.smaPlot.set_data(np.array(self.timeData),np.array(self.priceData))
 
         self.ui.smaMpl.draw()
+        return
 
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
