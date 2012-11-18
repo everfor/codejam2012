@@ -63,7 +63,7 @@ class MainDisplay(QtGui.QMainWindow):
         self.connect(self.ui.sendButton,QtCore.SIGNAL("clicked()"),self._slotSendClicked)
 
     def _slotConnectClicked(self):
-        os.system("""imview Gant_Chart.jpg&""")
+        #os.system("""imview Gant_Chart.jpg&""")
         self.ui.disconnectButton.setEnabled(False)
         self.ui.connectButton.setEnabled(False)
         self.ui.startButton.setEnabled(True)
@@ -90,12 +90,90 @@ class MainDisplay(QtGui.QMainWindow):
     def _initializePlot(self):
         xlabel='Time (sec.)'
         ylabel='Price'
+        title=['Simple Moving Average', 'Linear Weight Moving Average', 'Exponential Moving Average', 'Triangular Moving Average']
         for i in range(len(self.mplWidgets)):
-            self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
+            '''self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
             self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
             self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
             self.mplWidgets[i].figure.subplots_adjust(left=.15)
-            
+            '''
+            self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
+            self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)
+            self.mplWidgets[i].axes.set_title(title[i], size=8)
+            self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
+            self.mplWidgets[i].figure.subplots_adjust(left=.15)
+            self.plot.append(self.mplWidgets[i].axes.plot(
+                self.timeData,
+                self.priceData,
+                linewidth=1,
+                color='blue',
+                )[0])
+        for i in range(len(self.mplWidgets)):
+            if(i == 0):
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.smaFast,
+                    linewidth=1,
+                    color='green',
+                    )[0])
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.smaSlow,
+                    linewidth=1,
+                    color='red',
+                    )[0])
+            if(i == 0):
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.smaFast,
+                    linewidth=1,
+                    color='green',
+                    )[0])
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.smaSlow,
+                    linewidth=1,
+                    color='red',
+                    )[0])
+            if(i == 1):
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.lwmaFast,
+                    linewidth=1,
+                    color='green',
+                    )[0])
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.lwmaSlow,
+                    linewidth=1,
+                    color='red',
+                    )[0])
+            if(i == 2):
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.emaFast,
+                    linewidth=1,
+                    color='green',
+                    )[0])
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.emaSlow,
+                    linewidth=1,
+                    color='red',
+                    )[0])
+            if(i == 2):
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.tmaFast,
+                    linewidth=1,
+                    color='green',
+                    )[0])
+                self.plot.append(self.mplWidgets[i].axes.plot(
+                    self.timeData,
+                    self.tmaSlow,
+                    linewidth=1,
+                    color='red',
+                    )[0])
         return
         
     def _slotStartClicked(self):
@@ -124,24 +202,25 @@ class MainDisplay(QtGui.QMainWindow):
             self.lwmaSlow.append(self.tf.all_strategy.LWMA_slow.showValue())
             self.emaSlow.append(self.tf.all_strategy.EMA_slow.showValue())
             self.tmaSlow.append(self.tf.all_strategy.TMA_slow.showValue())
-            if(price_time % 200 == 0):
+            if(price_time % 10 == 0):
                 self._drawPlot(price_time)
                 QtGui.QApplication.processEvents()
-            if(price_time % 200 == 0):
-                self.priceData=self.priceData[200:]
-                self.timeData=self.timeData[200:]
-                self.smaFast=self.smaFast[200:]
-                self.lwmaFast=self.lwmaFast[200:]
-                self.emaFast=self.emaFast[200:]
-                self.tmaFast=self.tmaFast[200:]
-                self.smaSlow=self.smaSlow[200:]
-                self.lwmaSlow=self.lwmaSlow[200:]
-                self.emaSlow=self.emaSlow[200:]
-                self.tmaSlow=self.tmaSlow[200:]   
+            if(price_time % 50 == 0):
+                self.priceData=self.priceData[50:]
+                self.timeData=self.timeData[50:]
+                self.smaFast=self.smaFast[50:]
+                self.lwmaFast=self.lwmaFast[50:]
+                self.emaFast=self.emaFast[50:]
+                self.tmaFast=self.tmaFast[50:]
+                self.smaSlow=self.smaSlow[50:]
+                self.lwmaSlow=self.lwmaSlow[50:]
+                self.emaSlow=self.emaSlow[50:]
+                self.tmaSlow=self.tmaSlow[50:]   
+            
                 
         self.tf.json_write()
         self.tf.history()
-        #os.system("gedit history.txt")
+        os.system("notepad history.txt")
         webbrowser("history.txt")
 
     def write(self):
@@ -150,19 +229,18 @@ class MainDisplay(QtGui.QMainWindow):
     
     def _drawPlot(self, price_time):
         for i in range(len(self.mplWidgets)):
-            xmax = round(max(self.timeData), 0) + 1
-            xmin = 0
-            if(xmax > 1000):
-                xmin = xmax - 1000
+            xmax = round(max(self.timeData), 0) - 1
+            xmin = round(min(self.timeData), 0) + 1
 
-            ymin = 5
-            ymax = round(max(self.priceData), 0) + 1
+
+            ymin = round(min(self.priceData), 0) - 0.3
+            ymax = round(max(self.priceData), 0) + 0.3
             
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
             
 
-            if(i == 0):
+            '''if(i == 0):
                 curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
                 curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaSlow), color='red', linewidth=1)
                 self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaFast), color='green', linewidth=1)
@@ -178,10 +256,23 @@ class MainDisplay(QtGui.QMainWindow):
                 curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
                 curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaSlow), color='red', linewidth=1)
                 self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaFast), color='green', linewidth=1)
-                
-                
-            self.mplWidgets[i].axes.add_line(curve1)
-            self.mplWidgets[i].axes.add_line(curve2)
+            '''
+            self.plot[i].set_data(np.array(self.timeData),np.array(self.priceData))
+            if(i == 0):
+                self.plot[2*i + 4].set_data(np.array(self.timeData),np.array(self.smaFast))
+                self.plot[2*i + 5].set_data(np.array(self.timeData),np.array(self.smaSlow))
+            if(i == 1):
+                self.plot[2*i + 4].set_data(np.array(self.timeData),np.array(self.lwmaFast))
+                self.plot[2*i + 5].set_data(np.array(self.timeData),np.array(self.lwmaSlow))
+            if(i == 2):
+                self.plot[2*i + 4].set_data(np.array(self.timeData),np.array(self.emaFast))
+                self.plot[2*i + 5].set_data(np.array(self.timeData),np.array(self.emaSlow))
+            if(i == 3):
+                self.plot[2*i + 4].set_data(np.array(self.timeData),np.array(self.tmaFast))
+                self.plot[2*i + 5].set_data(np.array(self.timeData),np.array(self.tmaSlow))
+            self.mplWidgets[i].axes.add_line(self.plot[i])
+            self.mplWidgets[i].axes.add_line(self.plot[2*i + 4])
+            self.mplWidgets[i].axes.add_line(self.plot[2*i + 5])
             self.mplWidgets[i].draw()
         return
         

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RTEDlg.ui'
 #
-# Created: Sun Nov 18 22:12:56 2012
+# Created: Sun Nov 18 22:46:19 2012
 #      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -32,13 +32,13 @@ class Ui_RTEDlg(object):
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.smaMpl = MatplotlibWidget(RTEDlg)
-        self.smaMpl.setGeometry(QtCore.QRect(280, 10, 461, 271))
+        self.smaMpl.setGeometry(QtCore.QRect(280, 20, 461, 271))
         self.smaMpl.setObjectName(_fromUtf8("smaMpl"))
         self.emaMpl = MatplotlibWidget(RTEDlg)
         self.emaMpl.setGeometry(QtCore.QRect(280, 290, 461, 271))
         self.emaMpl.setObjectName(_fromUtf8("emaMpl"))
         self.lwmaMpl = MatplotlibWidget(RTEDlg)
-        self.lwmaMpl.setGeometry(QtCore.QRect(750, 10, 461, 271))
+        self.lwmaMpl.setGeometry(QtCore.QRect(750, 20, 461, 271))
         self.lwmaMpl.setObjectName(_fromUtf8("lwmaMpl"))
         self.tmaMpl = MatplotlibWidget(RTEDlg)
         self.tmaMpl.setGeometry(QtCore.QRect(750, 290, 461, 271))
@@ -95,23 +95,23 @@ class Ui_RTEDlg(object):
         self.sendButton.setGeometry(QtCore.QRect(20, 240, 231, 61))
         self.sendButton.setObjectName(_fromUtf8("sendButton"))
         self.serialLabel = QtGui.QLabel(RTEDlg)
-        self.serialLabel.setGeometry(QtCore.QRect(10, 320, 261, 121))
+        self.serialLabel.setGeometry(QtCore.QRect(290, 0, 911, 31))
         self.serialLabel.setWordWrap(True)
         self.serialLabel.setObjectName(_fromUtf8("serialLabel"))
         self.label = QtGui.QLabel(RTEDlg)
-        self.label.setGeometry(QtCore.QRect(430, 20, 261, 16))
+        self.label.setGeometry(QtCore.QRect(430, 30, 261, 16))
         self.label.setObjectName(_fromUtf8("label"))
         self.label_2 = QtGui.QLabel(RTEDlg)
         self.label_2.setGeometry(QtCore.QRect(420, 300, 221, 16))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.label_4 = QtGui.QLabel(RTEDlg)
-        self.label_4.setGeometry(QtCore.QRect(890, 20, 231, 16))
+        self.label_4.setGeometry(QtCore.QRect(890, 30, 231, 16))
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.label_5 = QtGui.QLabel(RTEDlg)
         self.label_5.setGeometry(QtCore.QRect(880, 300, 231, 16))
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.label_6 = QtGui.QLabel(RTEDlg)
-        self.label_6.setGeometry(QtCore.QRect(10, 460, 221, 101))
+        self.label_6.setGeometry(QtCore.QRect(10, 340, 221, 111))
         self.label_6.setTextFormat(QtCore.Qt.AutoText)
         self.label_6.setObjectName(_fromUtf8("label_6"))
 
