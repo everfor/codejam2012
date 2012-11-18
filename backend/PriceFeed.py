@@ -10,11 +10,13 @@ class PriceFeed:
     def connect(self, ip, port):
         #Connect to the server:
         self.pr_sock.connect((ip, port))
+        return
         
     
     def startFeed(self):
         #Sned an "H" which means starting the communication:
         self.pr_sock.send('H\r\n')
+        return
      
     def getNextPrice(self):
         price = ''
@@ -28,3 +30,4 @@ class PriceFeed:
                 self.time += 1
                 return self.time, price
             price += data
+        return

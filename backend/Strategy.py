@@ -42,6 +42,7 @@ class Strategy:
             self.Delta1_LWMA = self.LWMA_fast.showValue() - self.LWMA_slow.showValue()
             self.Delta1_EMA = self.EMA_fast.showValue() - self.EMA_slow.showValue()
             self.Delta1_TMA = self.TMA_fast.showValue() - self.TMA_slow.showValue()
+            return
         else:
             self.Delta1_SMA = self.Delta2_SMA
             self.Delta1_LWMA = self.Delta2_LWMA
@@ -92,9 +93,11 @@ class Strategy:
             if(t == 27001):
                 self.Manager_SMA = 'Manager7'
                 self.Manager_LWMA = 'Manager7'
+                return
             if(t == 28801):
                 self.Manager_EMA = 'Manager6'
                 self.Manager_TMA = 'Manager6'
+                return
             
     def check_SMA(self):
         if(self.Delta1_SMA < 0 and self.Delta2_SMA >= 0):

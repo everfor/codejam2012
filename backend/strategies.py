@@ -40,6 +40,7 @@ class LWMA:
             self.price_list.append(price)
             self.total += price * t
             self.value = self.total / sum(t)
+            return
         else:
             self.price_list.append(price)
             self.price_list.pop(0)
@@ -49,6 +50,7 @@ class LWMA:
                 self.total += item * i
                 i += 1
             self.value = self.total / self.divisor
+            return
      
     def showValue(self):
         return self.value
@@ -84,12 +86,14 @@ class TMA:
         if(t <= self.N):
             self.total += self.SMA_obj.showValue()
             self.value = self.total / t
+            return
         else:
             self.total = 0
             self.SMA_list.pop(0)
             for item in self.SMA_list:
                 self.total += item
             self.value = self.total / self.N
+            return
     
     def showValue(self):
         return self.value
