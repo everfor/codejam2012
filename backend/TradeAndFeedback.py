@@ -31,7 +31,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             
@@ -40,7 +40,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_SMA, "strategy" : "SMA"})
             
@@ -48,7 +48,7 @@ class TradeAndFeedback:
             self.tb.buy()
             price = self.tb.receive()
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
         
@@ -57,7 +57,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_LWMA, "strategy" : "LWMA"})
         
@@ -66,7 +66,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
         
@@ -75,7 +75,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_EMA, "strategy" : "EMA"})
         
@@ -84,7 +84,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "buy", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
         
@@ -93,7 +93,7 @@ class TradeAndFeedback:
             price = self.tb.receive()
                 
             if('E' == price):
-                pass
+                return
             self.json_obj["transactions"].append({"time" : str(price_time + 1), "type" : "sell", "price" : data, 
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
     

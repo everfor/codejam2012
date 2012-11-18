@@ -10,7 +10,6 @@ class PriceFeed:
     def connect(self, ip, port):
         #Connect to the server:
         self.pr_sock.connect((ip, port))
-        print 'Connecting to ' + str(port)
         
     
     def startFeed(self):
@@ -23,7 +22,7 @@ class PriceFeed:
             data = self.pr_sock.recv(1)
             #When it's a "C" all ends:
             if(data == 'C'):
-                return -1, data
+                return -1, ""
             elif(data == '|'):
                 self.data_list.append(float(price))
                 self.time += 1

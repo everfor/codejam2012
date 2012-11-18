@@ -1,29 +1,31 @@
 import strategies as S
 
 class Strategy:
+    Delta1_SMA = 0
+    Delta2_SMA = 0
+    Delta1_LWMA = 0
+    Delta2_LWMA = 0
+    Delta1_LWMA = 0
+    Delta2_LWMA = 0
+    Delta1_EMA = 0
+    Delta2_EMA = 0
+    Delta1_TMA = 0
+    Delta2_TMA = 0
     def __init__(self):
         self.SMA_fast = S.SMA(5)
         self.SMA_slow = S.SMA(20)
-        self.Delta1_SMA = 0
-        self.Delta2_SMA = 0
         self.Manager_SMA = 'Manager1'
         
         self.LWMA_fast = S.LWMA(5)
         self.LWMA_slow = S.LWMA(20)
-        self.Delta1_LWMA = 0
-        self.Delta2_LWMA = 0
         self.Manager_LWMA = 'Manager1'
         
         self.EMA_fast = S.EMA(5)
         self.EMA_slow = S.EMA(20)
-        self.Delta1_EMA = 0
-        self.Delta2_EMA = 0
         self.Manager_EMA = 'Manager2'
         
         self.TMA_fast = S.TMA(5)
         self.TMA_slow = S.TMA(20)
-        self.Delta1_TMA = 0
-        self.Delta2_TMA = 0
         self.Manager_TMA = 'Manager2'
         
     def update(self, price, t):

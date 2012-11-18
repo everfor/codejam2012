@@ -7,7 +7,6 @@ class TradeBook:
     def connect(self, ip, port):
         #Connect to the server:
         self.pr_sock.connect((ip, port))
-        print 'Connecting to ' + str(port)
     
     def buy(self):
        self.pr_sock.send('B\r\n')
