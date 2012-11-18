@@ -26,15 +26,21 @@ class MainDisplay(QtGui.QMainWindow):
 
         self.ui=Ui_RTEDlg()
         self.ui.setupUi(self)
-
         
         self.priceData=[]
         self.timeData=[]
 
+        
+        self.mplWidgets=[self.ui.smaMpl, self.ui.lwmaMpl, self.ui.emaMpl, self.ui.tmaMpl]
+        self.plot=[]
+        self._initializePlot()
+        
+
+
         self.pf = PriceFeed.PriceFeed()
         self.tf = TradeAndFeedback.TradeAndFeedback()
-
-        self.smaPlot=self._initializePlot()
+        
+        
         self._connectSlots()
         self.ui.disconnectButton.setEnabled(False)
         self.ui.startButton.setEnabled(False)
@@ -75,20 +81,21 @@ class MainDisplay(QtGui.QMainWindow):
         xlabel='Time (sec.)'
         ylabel='Price'
         title=['Simple Moving Average','Linear Weighted Moving Average','Exponential Moving Average','Triangular Moving Average']
-        plot=self.ui.smaMpl.axes.plot(
-            np.array(self.timeData),
-            np.array(self.priceData),
+        for i in range(len(self.mplWidgets)):
+            self.plot.append(self.mplWidgets[i].axes.plot(
+            self.timeData,
+            self.priceData,
             linewidth=1,
             color='blue',
-            )[0]
+            )[0])
         
-        self.ui.smaMpl.axes.set_xlabel(xlabel, size=8)
-        self.ui.smaMpl.axes.set_ylabel(ylabel, size=8)  
-        self.ui.smaMpl.axes.set_title(title[0], size=8)  
-        self.ui.smaMpl.figure.subplots_adjust(bottom=.15)
-        self.ui.smaMpl.figure.subplots_adjust(left=.15)
+        self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
+        self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
+        self.mplWidgets[i].axes.set_title(title[i], size=8) 
+        self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
+        self.mplWidgets[i].figure.subplots_adjust(left=.15)
         
-        return plot
+        return
         
     def _slotStartClicked(self):
         self.ui.startButton.setEnabled(False)
@@ -122,18 +129,20 @@ class MainDisplay(QtGui.QMainWindow):
         self.tf.json_write()
     
     def _drawPlot(self):
-        xmax = round(max(self.timeData), 0) + 1
-        xmin = round(min(self.timeData), 0) - 1
+        for i in range(len(self.mplWidgets)):
+            xmax = round(max(self.timeData), 0) + 1
+            xmin = round(min(self.timeData), 0) - 1
 
-        ymin = 5
-        ymax = round(max(self.priceData), 0) + 1
-
-        self.ui.smaMpl.axes.set_xbound(lower=xmin, upper=xmax)
-        self.ui.smaMpl.axes.set_ybound(lower=ymin, upper=ymax)
-
-        self.smaPlot.set_data(np.array(self.timeData),np.array(self.priceData))
-
-        self.ui.smaMpl.draw()
+            ymin = 5
+            ymax = round(max(self.priceData), 0) + 1
+            
+            self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
+            self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
+        
+            self.plot[i].set_data(np.array(self.timeData),np.array(self.priceData))
+        
+            self.mplWidgets[i].draw()
+        
         return
 
 if __name__=="__main__":
