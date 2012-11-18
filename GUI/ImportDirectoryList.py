@@ -1,5 +1,5 @@
 import sys
 
-sys.path.append("../Backend")
+sys.path.append("../backend")
 
 

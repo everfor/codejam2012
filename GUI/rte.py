@@ -16,11 +16,10 @@ import threading
 
 
 import PriceFeed
-import Strategy
+import TradeAndFeedback
 
 class MainDisplay(QtGui.QMainWindow):
     def __init__(self,parent=None):
-        self.all_strategy = Strategy.Strategy()
 
         QtGui.QWidget.__init__(self,parent)
         self.timer = QtCore.QTimer()
@@ -31,16 +30,19 @@ class MainDisplay(QtGui.QMainWindow):
         self.smaData=[]
 
         self.pf = PriceFeed.PriceFeed()
+        self.tf = TradeAndFeedback.TradeAndFeedback()
 
         self.smaPlot=self._initializePlot()
         self._connectSlots()
         self.ui.disconnectButton.setEnabled(False)
         self.ui.startButton.setEnabled(False)
+        self.ui.sendButton.setEnabled(False)
 
     def _connectSlots(self):
         self.connect(self.ui.connectButton,QtCore.SIGNAL("clicked()"),self._slotConnectClicked)
         self.connect(self.ui.disconnectButton,QtCore.SIGNAL("clicked()"),self._slotDisconnectClicked)
         self.connect(self.ui.startButton,QtCore.SIGNAL("clicked()"),self._slotStartClicked)
+        self.connect(self.ui.sendButton,QtCore.SIGNAL("clicked()"),self._slotSendClicked)
 
     def _slotConnectClicked(self):
         self.ui.disconnectButton.setEnabled(True)
@@ -50,8 +52,10 @@ class MainDisplay(QtGui.QMainWindow):
         self.ui.tbEdit.setEnabled(False)
 
         self.ip=str(self.ui.ipEdit.text())
-        self.port=int(str(self.ui.pfEdit.text()))
-        self.pf.connect(self.ip,self.port)
+        self.port1=int(str(self.ui.pfEdit.text()))
+        self.port2=int(str(self.ui.tbEdit.text()))
+        self.pf.connect(self.ip,self.port1)
+        self.tf.connect(self.ip,self.port2)
 
     def _slotDisconnectClicked(self):
         self.ui.disconnectButton.setEnabled(False)
@@ -59,6 +63,9 @@ class MainDisplay(QtGui.QMainWindow):
         self.ui.startButton.setEnabled(False)
         self.ui.pfEdit.setEnabled(True)
         self.ui.tbEdit.setEnabled(True)
+        
+    def _slotSendClicked(self):
+        self.write()
 
     def _initializePlot(self):
         xlabel='Time (sec.)'
@@ -79,28 +86,37 @@ class MainDisplay(QtGui.QMainWindow):
         return plot
         
     def _slotStartClicked(self):
+        self.run()
+        '''while(1):
+            price_time, data = self.pf.getNextPrice()
+            #self.smaData.append(float(data))
+            if(len(self.smaData) % 100 == 0):
+                self._drawPlot()
+                self.smaData=[]
+            
+            if(data == 'C'):
+                #print data
+                self.ui.sendButton.setEnabled(True)
+                break
+        '''    
+    def run(self):
         price_time = 0
         data=''
-        initial = time.time()
         self.pf.startFeed()
         while(1):
             price_time, data = self.pf.getNextPrice()
-            self.smaData.append(float(data))
-            if(len(self.smaData)==10000):
-                self._drawPlot()
-                self.smaData=[]
-            '''self.timeData.append(price_time)
-            self.data.append(float(data))
-            if(price_time % 1000 == 0):
-                self._drawPlot(self.timeData, self.data)
-                self.timeData = []
-                self.data = []
-            '''
-            if(data == 'C'):
+            self.tf.update_all(data, price_time)
+            if("" == data):
+                print price_time
                 print data
+                self.ui.sendButton.setEnabled(True)
                 break
-            self.all_strategy.update(float(data), price_time)
-        print time.time() - initial
+            
+        #print self.tf.json_obj
+        #self.write()
+        
+    def write(self):
+        self.tf.json_write()
     
     def _drawPlot(self):
         xmax = 10000

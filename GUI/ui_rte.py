@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RTEDlg.ui'
 #
-# Created: Sun Nov 18 00:25:10 2012
+# Created: Sun Nov 18 01:49:42 2012
 #      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,7 +95,7 @@ class Ui_RTEDlg(object):
         self.sendButton.setGeometry(QtCore.QRect(40, 250, 75, 23))
         self.sendButton.setObjectName(_fromUtf8("sendButton"))
         self.serialLabel = QtGui.QLabel(RTEDlg)
-        self.serialLabel.setGeometry(QtCore.QRect(140, 240, 101, 41))
+        self.serialLabel.setGeometry(QtCore.QRect(10, 290, 261, 121))
         self.serialLabel.setWordWrap(True)
         self.serialLabel.setObjectName(_fromUtf8("serialLabel"))
 
