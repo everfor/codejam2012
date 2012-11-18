@@ -114,7 +114,7 @@ class TradeAndFeedback:
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
     
     def post(self):
-        os.system('cd rte/home/codejam2012/GUI')
+        os.system('cd home/codejam2012/GUI')
         os.system('''curl -X "POST" -H "Authorization: Basic Y29kZWphbTpBRkxpdGw0TEEyQWQx" -H "Content-Type:application/json" --data-binary @Result.json "https://stage-api.e-signlive.com/aws/rest/services/codejam"''')
     
     def write(self, obj):
