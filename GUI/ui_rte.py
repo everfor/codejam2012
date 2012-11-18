@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RTEDlg.ui'
 #
-# Created: Sun Nov 18 18:08:40 2012
+# Created: Sun Nov 18 22:12:56 2012
 #      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,12 +92,28 @@ class Ui_RTEDlg(object):
         self.verticalLayout_2.addWidget(self.startButton)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
         self.sendButton = QtGui.QPushButton(RTEDlg)
-        self.sendButton.setGeometry(QtCore.QRect(40, 250, 75, 23))
+        self.sendButton.setGeometry(QtCore.QRect(20, 240, 231, 61))
         self.sendButton.setObjectName(_fromUtf8("sendButton"))
         self.serialLabel = QtGui.QLabel(RTEDlg)
-        self.serialLabel.setGeometry(QtCore.QRect(10, 290, 261, 121))
+        self.serialLabel.setGeometry(QtCore.QRect(10, 320, 261, 121))
         self.serialLabel.setWordWrap(True)
         self.serialLabel.setObjectName(_fromUtf8("serialLabel"))
+        self.label = QtGui.QLabel(RTEDlg)
+        self.label.setGeometry(QtCore.QRect(430, 20, 261, 16))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.label_2 = QtGui.QLabel(RTEDlg)
+        self.label_2.setGeometry(QtCore.QRect(420, 300, 221, 16))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_4 = QtGui.QLabel(RTEDlg)
+        self.label_4.setGeometry(QtCore.QRect(890, 20, 231, 16))
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.label_5 = QtGui.QLabel(RTEDlg)
+        self.label_5.setGeometry(QtCore.QRect(880, 300, 231, 16))
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.label_6 = QtGui.QLabel(RTEDlg)
+        self.label_6.setGeometry(QtCore.QRect(10, 460, 221, 101))
+        self.label_6.setTextFormat(QtCore.Qt.AutoText)
+        self.label_6.setObjectName(_fromUtf8("label_6"))
 
         self.retranslateUi(RTEDlg)
         QtCore.QMetaObject.connectSlotsByName(RTEDlg)
@@ -114,7 +130,12 @@ class Ui_RTEDlg(object):
         self.tbEdit.setText(QtGui.QApplication.translate("RTEDlg", "8212", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("RTEDlg", "GUI Commands", None, QtGui.QApplication.UnicodeUTF8))
         self.startButton.setText(QtGui.QApplication.translate("RTEDlg", "Start", None, QtGui.QApplication.UnicodeUTF8))
-        self.sendButton.setText(QtGui.QApplication.translate("RTEDlg", "Send", None, QtGui.QApplication.UnicodeUTF8))
-        self.serialLabel.setText(QtGui.QApplication.translate("RTEDlg", "Serial ID", None, QtGui.QApplication.UnicodeUTF8))
+        self.sendButton.setText(QtGui.QApplication.translate("RTEDlg", "Send Report", None, QtGui.QApplication.UnicodeUTF8))
+        self.serialLabel.setText(QtGui.QApplication.translate("RTEDlg", "Ceremony ID", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("RTEDlg", "Simple Moving Average(SMA)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("RTEDlg", "Exponential Moving Average(EMA)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("RTEDlg", "Linear Weighted Moving Average(LWMA)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("RTEDlg", "Triangular Moving Average(TMA)", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("RTEDlg", "<html><head/><body><p>Legend[MA = Moving Average]</p><p>Price: Blue Line</p><p>Slow MA: Red Line (Period[N] = 20)</p><p>Fast MA: Green Line (Period[N] = 5)</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
 
 from matplotlibwidget import MatplotlibWidget

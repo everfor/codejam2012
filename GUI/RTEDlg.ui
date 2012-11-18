@@ -197,30 +197,98 @@
   <widget class="QPushButton" name="sendButton">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>250</y>
-     <width>75</width>
-     <height>23</height>
+     <x>20</x>
+     <y>240</y>
+     <width>231</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>Send</string>
+    <string>Send Report</string>
    </property>
   </widget>
   <widget class="QLabel" name="serialLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>290</y>
+     <y>320</y>
      <width>261</width>
      <height>121</height>
     </rect>
    </property>
    <property name="text">
-    <string>Serial ID</string>
+    <string>Ceremony ID</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>20</y>
+     <width>261</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Simple Moving Average(SMA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>300</y>
+     <width>221</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exponential Moving Average(EMA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>20</y>
+     <width>231</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Linear Weighted Moving Average(LWMA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>300</y>
+     <width>231</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Triangular Moving Average(TMA)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>460</y>
+     <width>221</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Legend[MA = Moving Average]&lt;/p&gt;&lt;p&gt;Price: Blue Line&lt;/p&gt;&lt;p&gt;Slow MA: Red Line (Period[N] = 20)&lt;/p&gt;&lt;p&gt;Fast MA: Green Line (Period[N] = 5)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="textFormat">
+    <enum>Qt::AutoText</enum>
    </property>
   </widget>
  </widget>

@@ -89,11 +89,9 @@ class MainDisplay(QtGui.QMainWindow):
     def _initializePlot(self):
         xlabel='Time (sec.)'
         ylabel='Price'
-        self.title=['Simple Moving Average','Linear Weighted Moving Average','Exponential Moving Average','Triangular Moving Average']
         for i in range(len(self.mplWidgets)):
             self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
             self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
-            self.mplWidgets[i].axes.set_title(self.title[i], size=8) 
             self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
             self.mplWidgets[i].figure.subplots_adjust(left=.15)
             
@@ -125,40 +123,42 @@ class MainDisplay(QtGui.QMainWindow):
             self.lwmaSlow.append(self.tf.all_strategy.LWMA_slow.showValue())
             self.emaSlow.append(self.tf.all_strategy.EMA_slow.showValue())
             self.tmaSlow.append(self.tf.all_strategy.TMA_slow.showValue())
-            if(price_time % 100 == 0):
+            if(price_time % 200 == 0):
                 self._drawPlot(price_time)
                 QtGui.QApplication.processEvents()
             if(price_time % 200 == 0):
-                self.priceData=self.priceData[100:]
-                self.timeData=self.timeData[100:]
-                self.smaFast=self.smaFast[100:]
-                self.lwmaFast=self.lwmaFast[100:]
-                self.emaFast=self.emaFast[100:]
-                self.tmaFast=self.tmaFast[100:]
-                self.smaSlow=self.smaSlow[100:]
-                self.lwmaSlow=self.lwmaSlow[100:]
-                self.emaSlow=self.emaSlow[100:]
-                self.tmaSlow=self.tmaSlow[100:]   
+                self.priceData=self.priceData[200:]
+                self.timeData=self.timeData[200:]
+                self.smaFast=self.smaFast[200:]
+                self.lwmaFast=self.lwmaFast[200:]
+                self.emaFast=self.emaFast[200:]
+                self.tmaFast=self.tmaFast[200:]
+                self.smaSlow=self.smaSlow[200:]
+                self.lwmaSlow=self.lwmaSlow[200:]
+                self.emaSlow=self.emaSlow[200:]
+                self.tmaSlow=self.tmaSlow[200:]   
+                
+        self.tf.json_write()
+        self.tf.history()
+        os.system("gedit history.txt")
 
     def write(self):
-        self.tf.json_write()
         self.tf.post()
         self.ui.serialLabel.setText(self.tf.serial)
     
     def _drawPlot(self, price_time):
         for i in range(len(self.mplWidgets)):
-            xmax = price_time
+            xmax = round(max(self.timeData), 0) + 1
             xmin = 0
-            if(price_time > 200):
-                xmin = price_time/2
+            if(xmax > 1000):
+                xmin = xmax - 1000
 
-            ymin = 8
+            ymin = 5
             ymax = round(max(self.priceData), 0) + 1
             
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
             
-            self.mplWidgets[i].axes.set_title(self.title[i], size=8) 
 
             if(i == 0):
                 curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)

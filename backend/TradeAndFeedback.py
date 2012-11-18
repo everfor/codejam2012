@@ -17,6 +17,7 @@ class TradeAndFeedback:
         self.all_strategy = Strategy.Strategy()
         self.serial = ''
         self.file = open("Result.json", "w")
+        self.hisfile = open("History.txt", "w")
         self.json_obj = {"team" : "RuntimeException", "destination" : "mcgillcodejam2012@gmail.com", "transactions" : []}
     
     def connect(self, ip, port):
@@ -125,3 +126,9 @@ class TradeAndFeedback:
         
     def json_write(self):
         self.write(json.dumps(self.json_obj, sort_keys = True, indent = 4))
+        
+    def history(self):
+        self.hisfile.write("Time            Price           Type" + '\n')
+        for transaction in self.json_obj['transactions']:
+            self.hisfile.write(transaction['time'] + "              " + transaction['price'] + "            " + transaction['type'] + '\n')
+        self.hisfile.close()
