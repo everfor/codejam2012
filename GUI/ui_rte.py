@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'RTEDlg.ui'
 #
-# Created: Sat Nov 17 08:38:22 2012
+# Created: Sun Nov 18 00:25:10 2012
 #      by: PyQt4 UI code generator 4.9.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,13 @@ class Ui_RTEDlg(object):
         self.startButton.setObjectName(_fromUtf8("startButton"))
         self.verticalLayout_2.addWidget(self.startButton)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.sendButton = QtGui.QPushButton(RTEDlg)
+        self.sendButton.setGeometry(QtCore.QRect(40, 250, 75, 23))
+        self.sendButton.setObjectName(_fromUtf8("sendButton"))
+        self.serialLabel = QtGui.QLabel(RTEDlg)
+        self.serialLabel.setGeometry(QtCore.QRect(140, 240, 101, 41))
+        self.serialLabel.setWordWrap(True)
+        self.serialLabel.setObjectName(_fromUtf8("serialLabel"))
 
         self.retranslateUi(RTEDlg)
         QtCore.QMetaObject.connectSlotsByName(RTEDlg)
@@ -107,5 +114,7 @@ class Ui_RTEDlg(object):
         self.tbEdit.setText(QtGui.QApplication.translate("RTEDlg", "8212", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("RTEDlg", "GUI Commands", None, QtGui.QApplication.UnicodeUTF8))
         self.startButton.setText(QtGui.QApplication.translate("RTEDlg", "Start", None, QtGui.QApplication.UnicodeUTF8))
+        self.sendButton.setText(QtGui.QApplication.translate("RTEDlg", "Send", None, QtGui.QApplication.UnicodeUTF8))
+        self.serialLabel.setText(QtGui.QApplication.translate("RTEDlg", "Serial ID", None, QtGui.QApplication.UnicodeUTF8))
 
 from matplotlibwidget import MatplotlibWidget
