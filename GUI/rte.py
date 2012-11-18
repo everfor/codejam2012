@@ -127,6 +127,7 @@ class MainDisplay(QtGui.QMainWindow):
 
     def write(self):
         self.tf.json_write()
+        self.tf.post()
     
     def _drawPlot(self):
         for i in range(len(self.mplWidgets)):
