@@ -34,6 +34,9 @@ class MainDisplay(QtGui.QMainWindow):
         self.emaFast=[]
         self.tmaFast=[]
         self.smaSlow=[]
+        self.lwmaSlow=[]
+        self.emaSlow=[]
+        self.tmaSlow=[]
 
         
         self.mplWidgets=[self.ui.smaMpl, self.ui.lwmaMpl, self.ui.emaMpl, self.ui.tmaMpl]
@@ -59,6 +62,7 @@ class MainDisplay(QtGui.QMainWindow):
         self.connect(self.ui.sendButton,QtCore.SIGNAL("clicked()"),self._slotSendClicked)
 
     def _slotConnectClicked(self):
+        os.system("""   imview Gant_Chart.jpg &     """)
         self.ui.disconnectButton.setEnabled(False)
         self.ui.connectButton.setEnabled(False)
         self.ui.startButton.setEnabled(True)
@@ -85,21 +89,14 @@ class MainDisplay(QtGui.QMainWindow):
     def _initializePlot(self):
         xlabel='Time (sec.)'
         ylabel='Price'
-        title=['Simple Moving Average','Linear Weighted Moving Average','Exponential Moving Average','Triangular Moving Average']
+        self.title=['Simple Moving Average','Linear Weighted Moving Average','Exponential Moving Average','Triangular Moving Average']
         for i in range(len(self.mplWidgets)):
-            self.plot.append(self.mplWidgets[i].axes.plot(
-            self.timeData,
-            self.priceData,
-            linewidth=1,
-            color='blue',
-            ))
-
             self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
             self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
-            self.mplWidgets[i].axes.set_title(title[i], size=8) 
+            self.mplWidgets[i].axes.set_title(self.title[i], size=8) 
             self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
             self.mplWidgets[i].figure.subplots_adjust(left=.15)
-
+            
         return
         
     def _slotStartClicked(self):
@@ -117,23 +114,43 @@ class MainDisplay(QtGui.QMainWindow):
             if("" == data):
                 self.ui.sendButton.setEnabled(True)
                 break
+            self.tf.update_all(data, price_time)
             self.priceData.append(float(data))
             self.timeData.append(price_time)
-            self.tf.update_all(data, price_time)
+            self.smaFast.append(self.tf.all_strategy.SMA_fast.showValue())
+            self.lwmaFast.append(self.tf.all_strategy.LWMA_fast.showValue())
+            self.emaFast.append(self.tf.all_strategy.EMA_fast.showValue())
+            self.tmaFast.append(self.tf.all_strategy.TMA_fast.showValue())
             self.smaSlow.append(self.tf.all_strategy.SMA_slow.showValue())
+            self.lwmaSlow.append(self.tf.all_strategy.LWMA_slow.showValue())
+            self.emaSlow.append(self.tf.all_strategy.EMA_slow.showValue())
+            self.tmaSlow.append(self.tf.all_strategy.TMA_slow.showValue())
             if(price_time % 100 == 0):
-                self._drawPlot()
+                self._drawPlot(price_time)
                 QtGui.QApplication.processEvents()
+            if(price_time % 200 == 0):
+                self.priceData=self.priceData[100:]
+                self.timeData=self.timeData[100:]
+                self.smaFast=self.smaFast[100:]
+                self.lwmaFast=self.lwmaFast[100:]
+                self.emaFast=self.emaFast[100:]
+                self.tmaFast=self.tmaFast[100:]
+                self.smaSlow=self.smaSlow[100:]
+                self.lwmaSlow=self.lwmaSlow[100:]
+                self.emaSlow=self.emaSlow[100:]
+                self.tmaSlow=self.tmaSlow[100:]   
 
     def write(self):
         self.tf.json_write()
         self.tf.post()
         self.ui.serialLabel.setText(self.tf.serial)
     
-    def _drawPlot(self):
+    def _drawPlot(self, price_time):
         for i in range(len(self.mplWidgets)):
-            xmax = round(max(self.timeData), 0) + 1
-            xmin = round(min(self.timeData), 0) - 1
+            xmax = price_time
+            xmin = 0
+            if(price_time > 200):
+                xmin = price_time/2
 
             ymin = 8
             ymax = round(max(self.priceData), 0) + 1
@@ -141,10 +158,31 @@ class MainDisplay(QtGui.QMainWindow):
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
             
-            self.plot[i][0].set_data(np.array(self.timeData),np.array(self.priceData))
-        
+            self.mplWidgets[i].axes.set_title(self.title[i], size=8) 
+
+            if(i == 0):
+                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
+                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaSlow), color='red', linewidth=1)
+                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaFast), color='green', linewidth=1)
+            if(i == 1):
+                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
+                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.lwmaSlow), color='red', linewidth=1)
+                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.lwmaFast), color='green', linewidth=1)
+            if(i == 2):
+                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
+                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.emaSlow), color='red', linewidth=1)
+                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.emaFast), color='green', linewidth=1)
+            if(i == 3):
+                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
+                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaSlow), color='red', linewidth=1)
+                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaFast), color='green', linewidth=1)
+                
+                
+            self.mplWidgets[i].axes.add_line(curve1)
+            self.mplWidgets[i].axes.add_line(curve2)
             self.mplWidgets[i].draw()
         return
+        
 
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)

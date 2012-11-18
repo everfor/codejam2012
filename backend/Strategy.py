@@ -87,8 +87,8 @@ class Strategy:
                 self.Manager_LWMA = 'Manager6'
                 return
             if(t == 21601):
-                self.Manager_EMA = 'Manager6'
-                self.Manager_TMA = 'Manager6'
+                self.Manager_EMA = 'Manager5'
+                self.Manager_TMA = 'Manager5'
                 return
             if(t == 27001):
                 self.Manager_SMA = 'Manager7'
