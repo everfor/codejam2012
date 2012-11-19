@@ -215,9 +215,14 @@ class MainDisplay(QtGui.QMainWindow):
         for i in range(len(self.mplWidgets)):
             xmax = round(max(timeData), 0) - 1
             xmin = round(min(timeData), 0) + 1
-
-            ymin = round(min(smaSlow), 0) - 0.5
-            ymax = round(max(smaSlow), 0) + 0.5
+            
+            mean = sum(priceData)/len(priceData)
+            ymin = mean * 0.95
+            if(ymin > round(min(priceData), 0)):
+                ymin = round(min(priceData), 0)
+            ymax = mean * 1.05
+            if(ymax < round(max(priceData), 0)):
+                ymax = round(max(priceData), 0)
             
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
@@ -239,7 +244,6 @@ class MainDisplay(QtGui.QMainWindow):
                 
             self.mplWidgets[i].axes.add_line(self.plot[i])
             self.mplWidgets[i].axes.add_line(self.plot[2*i + 4])
-            #self.mplWidgets[i].axes.add_line(self.plot[2*i + 5])
             self.mplWidgets[i].draw()
         return
         
