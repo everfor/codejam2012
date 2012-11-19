@@ -203,7 +203,7 @@ class MainDisplay(QtGui.QMainWindow):
                 
         self.tf.json_write()
         self.tf.history()
-        os.system("notepad history.txt")
+        os.system("gedit history.txt")
 
     def write(self):
         self.tf.post()
