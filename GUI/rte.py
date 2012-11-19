@@ -92,11 +92,6 @@ class MainDisplay(QtGui.QMainWindow):
         ylabel='Price'
         title=['Simple Moving Average', 'Linear Weight Moving Average', 'Exponential Moving Average', 'Triangular Moving Average']
         for i in range(len(self.mplWidgets)):
-            '''self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
-            self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)  
-            self.mplWidgets[i].figure.subplots_adjust(bottom=.15)
-            self.mplWidgets[i].figure.subplots_adjust(left=.15)
-            '''
             self.mplWidgets[i].axes.set_xlabel(xlabel, size=8)
             self.mplWidgets[i].axes.set_ylabel(ylabel, size=8)
             self.mplWidgets[i].axes.set_title(title[i], size=8)
@@ -221,42 +216,24 @@ class MainDisplay(QtGui.QMainWindow):
         self.tf.json_write()
         self.tf.history()
         os.system("notepad history.txt")
-        webbrowser("history.txt")
+        #webbrowser("history.txt")
 
     def write(self):
         self.tf.post()
-        self.ui.serialLabel.setText(self.tf.serial)
+        self.ui.serialLabel.setText(self.tf.cere)
     
     def _drawPlot(self, price_time):
         for i in range(len(self.mplWidgets)):
             xmax = round(max(self.timeData), 0) - 1
             xmin = round(min(self.timeData), 0) + 1
 
-
-            ymin = round(min(self.priceData), 0) - 0.3
-            ymax = round(max(self.priceData), 0) + 0.3
+            ymin = round(min(self.priceData), 0) - 0.5
+            ymax = round(max(self.priceData), 0) + 0.5
             
             self.mplWidgets[i].axes.set_xbound(lower=xmin, upper=xmax)
             self.mplWidgets[i].axes.set_ybound(lower=ymin, upper=ymax)
             
 
-            '''if(i == 0):
-                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
-                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaSlow), color='red', linewidth=1)
-                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.smaFast), color='green', linewidth=1)
-            if(i == 1):
-                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
-                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.lwmaSlow), color='red', linewidth=1)
-                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.lwmaFast), color='green', linewidth=1)
-            if(i == 2):
-                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
-                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.emaSlow), color='red', linewidth=1)
-                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.emaFast), color='green', linewidth=1)
-            if(i == 3):
-                curve1, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.priceData), color='blue', linewidth=1)
-                curve2, = self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaSlow), color='red', linewidth=1)
-                self.mplWidgets[i].axes.plot(np.array(self.timeData),np.array(self.tmaFast), color='green', linewidth=1)
-            '''
             self.plot[i].set_data(np.array(self.timeData),np.array(self.priceData))
             if(i == 0):
                 self.plot[2*i + 4].set_data(np.array(self.timeData),np.array(self.smaFast))

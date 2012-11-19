@@ -9,13 +9,14 @@ import urllib2
 import httplib
 import pycurl
 import os
+import subprocess
 
 
 class TradeAndFeedback:
     def __init__(self):
         self.tb = TradeBook.TradeBook()
         self.all_strategy = Strategy.Strategy()
-        self.serial = ''
+        self.cere = ''
         self.file = open("Result.json", "w")
         self.hisfile = open("History.txt", "w")
         self.json_obj = {"team" : "RuntimeException", "destination" : "mcgillcodejam2012@gmail.com", "transactions" : []}
@@ -116,9 +117,12 @@ class TradeAndFeedback:
                                                         "manager" : self.all_strategy.Manager_TMA, "strategy" : "TMA"})
     
     def post(self):
-        os.system('''curl -X "POST" -H "Authorization: Basic Y29kZWphbTpBRkxpdGw0TEEyQWQx" -H "Content-Type:application/json" --data-binary @Result.json "https://stage-api.e-signlive.com/aws/rest/services/codejam"''')
-        dict = self.tb.receive()
-        self.serial = dict['ceremonyID']
+        proc = subprocess.Popen('''curl -X "POST" -H "Authorization: Basic Y29kZWphbTpBRkxpdGw0TEEyQWQx" -H "Content-Type:application/json" --data-binary 
+                                @Result.json "https://stage-api.e-signlive.com/aws/rest/services/codejam"''', 
+                                shell = True,
+                                stdout = subprocess.PIPE
+                                )
+        self.cere = proc.stdout.read()[15:-2]
     
     def write(self, obj):
         self.file.write(obj)
